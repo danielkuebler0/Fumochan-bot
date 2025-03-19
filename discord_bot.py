@@ -56,7 +56,7 @@ async def store_message(event: hikari.GuildMessageCreateEvent) -> None:
             if event.message.channel_id != 1342486090472362026:
                 sql_cursor.execute(f'SELECT DISTINCT channel_id FROM messages WHERE messages.guild_id=({event.message.guild_id})')
                 channels = sql_cursor.fetchall()
-                sql_cursor.execute(f'SELECT users.name,channel_id,timestamp,content,messages.id FROM messages INNER JOIN users ON messages.user_id=users.id WHERE messages.guild_id=({event.message.guild_id}) ORDER BY messages.id DESC')
+                sql_cursor.execute(f'SELECT users.name,channel_id,timestamp,content,messages.id FROM messages INNER JOIN users ON messages.user_id=users.id WHERE messages.guild_id=({event.message.guild_id}) ORDER BY messages.id DESC LIMIT 6000')
                 messages = sql_cursor.fetchall()
                 guild = discord_bot.cache.get_guild(event.message.guild_id)
                 summary = ""
