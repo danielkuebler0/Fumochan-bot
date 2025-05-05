@@ -159,7 +159,7 @@ class CreatePollCommand(
 
         members = [m for m in discord_bot.cache.get_members_view_for_guild(ctx.guild_id).values() if not m.is_bot]
         names = [m.username for m in members]
-        duration = ctx.command._resolve_option(duration)
+        duration = self.duration
         poll = StrawpollAPI
 
         try:
