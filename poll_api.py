@@ -1,6 +1,5 @@
 import requests
 from typing import List, Optional
-import configloader
 import configparser
 import time
 
