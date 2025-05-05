@@ -10,7 +10,6 @@ import miru
 from google import genai
 from datetime import datetime
 from poll_api import StrawpollAPI
-import discord
 
 if os.name != "nt":
     import uvloop
