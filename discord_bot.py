@@ -4,9 +4,13 @@ import os
 import configparser
 import hikari
 import lightbulb
+import lightbulb.commands
+import lightbulb.context
 import miru
 from google import genai
 from datetime import datetime
+from poll_api import StrawpollAPI
+import discord
 
 if os.name != "nt":
     import uvloop
@@ -143,4 +147,29 @@ class SetChannel(
         await ctx.respond("Channel set!", ephemeral=True)
 
 
-discord_bot.run()
+@lightbulb_client.command()
+class CreatePollCommand(
+    lightbulb.SlashCommand,
+    name = "create_poll",
+    description = "Erstellt eine Umfrage"
+):
+    lightbulb.Option("duration", "Dauer in Minuten", type = int)
+    lightbulb.invoke
+    async def invoke(self, ctx: lightbulb.Context) -> None:
+        await discord_bot.request_guild_members(ctx.guild_id, query = "", limit = 0)
+
+        members = [m for m in discord_bot.cache.get_members_view_for_guild(ctx.guild_id).values() if not m.is_bot]
+        names = [m.username for m in members]
+        duration = ctx.command._resolve_option(duration)
+        poll = StrawpollAPI
+
+        try:
+            poll_data = poll.create_poll("Wer soll als nächstes gebannt werden", names, duration)
+            poll_url = poll.get_poll_url(poll_data)
+            await ctx.respond(f"poll created: {poll_url}")
+
+        except Exception as e:
+            await ctx.respond(f"poll creation failed: {e}")
+
+if __name__ == "__main__":
+    discord_bot.run()

@@ -1,2 +1,4 @@
 config.ini
 fumochan.db
+test_poll_api.py
+__pycache__
