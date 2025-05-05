@@ -150,7 +150,7 @@ class SetChannel(
 @lightbulb_client.command()
 class CreatePollCommand(
     lightbulb.SlashCommand,
-    name = "create_poll",
+    name = "create-poll",
     description = "Erstellt eine Umfrage"
 ):
     lightbulb.Option("duration", "Dauer in Minuten", type = int)
