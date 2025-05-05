@@ -155,15 +155,14 @@ class CreatePollCommand(
     duration = lightbulb.integer("duration", "Dauer in Minuten")
     @lightbulb.invoke
     async def invoke(self, ctx: lightbulb.Context) -> None:
+        await ctx.defer()
         await discord_bot.request_guild_members(ctx.guild_id, query = "", limit = 0)
-
         members = [m for m in discord_bot.cache.get_members_view_for_guild(ctx.guild_id).values() if not m.is_bot]
-        names = [m.username for m in members]
-        duration = self.duration
-        poll = StrawpollAPI
+        names = [m.display_name for m in members]
+        poll = StrawpollAPI()
 
         try:
-            poll_data = poll.create_poll("Wer soll als nächstes gebannt werden", names, duration)
+            poll_data = poll.create_poll("Wer soll als nächstes gebannt werden?", names, self.duration)
             poll_url = poll.get_poll_url(poll_data)
             await ctx.respond(f"poll created: {poll_url}")
 
