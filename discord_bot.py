@@ -146,7 +146,7 @@ class SetChannel(
         await ctx.respond("Channel set!", ephemeral=True)
 
 
-@lightbulb_client.command()
+@lightbulb_client.register()
 class CreatePollCommand(
     lightbulb.SlashCommand,
     name = "create-poll",
