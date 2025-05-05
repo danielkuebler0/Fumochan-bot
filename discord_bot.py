@@ -152,8 +152,8 @@ class CreatePollCommand(
     name = "create-poll",
     description = "Erstellt eine Umfrage"
 ):
-    lightbulb.Option("duration", "Dauer in Minuten", type = int)
-    lightbulb.invoke
+    @lightbulb.Option("duration", "Dauer in Minuten", type = int)
+    @lightbulb.invoke
     async def invoke(self, ctx: lightbulb.Context) -> None:
         await discord_bot.request_guild_members(ctx.guild_id, query = "", limit = 0)
 
